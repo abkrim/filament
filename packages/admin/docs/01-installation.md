@@ -88,3 +88,19 @@ We recommend adding the `filament:upgrade` command to your `composer.json`'s `po
     "@php artisan filament:upgrade"
 ],
 ```
+
+## Nginx
+If we use filament in an Nginx server we must take into account a few extra steps, to avoid a 404 error in locating them. **js** files.
+
+We must add an extra directive in the `location ~* \.(jpg|jpeg|gif|png|webp|svg|woff|woff2|ttf|css|js|ico|xml)` group, leaving it like the code below, for example
+
+```conf
+location ~* \.(jpg|jpeg|gif|png|webp|svg|woff|woff2|ttf|css|js|ico|xml)$ {
+        try_files $uri /index.php?$query_string;
+        access_log off;
+        log_not_found off;
+        expires 14d;
+}
+```
+
+Read [Problem loading Livewire.js](https://github.com/livewire/livewire/issues/242#issuecomment-948054946)
